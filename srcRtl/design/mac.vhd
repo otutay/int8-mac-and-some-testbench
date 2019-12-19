@@ -31,9 +31,10 @@ use work.multPckg.all;
 entity mac is
 
   port (
-    iClk  : in std_logic;                             -- clk input
-    iRst  : in std_logic;                             -- rset input
-    iData : in tMultIn
+    iClk  : in  std_logic;                            -- clk input
+    iRst  : in  std_logic;                            -- rset input
+    iData : in  tMultIn;
+    oData : out signed(cMultOutBitW-1 downto 0)
     );
 end entity mac;
 architecture rtl of mac is
@@ -41,10 +42,10 @@ architecture rtl of mac is
   signal ai1                    : signed(cPreAddBitW-1 downto 0)  := (others => '0');
   signal di1                    : signed(cPreAddBitW-1 downto 0)  := (others => '0');
   signal bi1                    : signed(cMult2BitW-1 downto 0)   := (others => '0');
-  signal postAddi1              : signed(cMultOutBitW-1 downto 0) := (others => '0');
   signal preAdd                 : signed(cPreAddBitW-1 downto 0)  := (others => '0');
+  signal postAddi1              : signed(cMultOutBitW-1 downto 0) := (others => '0');
   signal mult                   : signed(cMultOutBitW-1 downto 0) := (others => '0');
-  signal macOut                 : signed(cMult2BitW-1 downto 0)   := (others => '0');
+  signal macOut                 : signed(cMultOutBitW-1 downto 0) := (others => '0');
 --
   -- vivado specific attributes
   attribute USE_DSP48           : string;
@@ -60,14 +61,29 @@ begin  -- architecture mult
   inRegPro : process (clk) is
   begin  -- process macPro
     if clk'event and clk = '1' then     -- rising clock edge
-      ai1 <= resize(iData.a1, cPreAddBitW);
+      ai1 <= iData.a1 & to_signed(0, cPreAddBitW-cDataBitW);
       di1 <= resize(iData.a2, cPreAddBitW);
 
-      bi1 <= resize(iData.w, cMult2BitW);
+      bi1       <= resize(iData.w, cMult2BitW);
       postAddi1 <= iData.pSum;
     end if;
   end process inRegPro;
 
 
+  macPro : process (clk) is
+  begin  -- process macPro
+    if clk'event and clk = '1' then     -- rising clock edge
+      preAdd <= ai1 + di1;
+      mult   <= preAdd*bi1;
+      macOut <= mult+postAddi1;
+    end if;
+  end process macPro;
+
+  outPro : process (clk) is
+  begin  -- process outPro
+    if clk'event and clk = '1' then     -- rising clock edge
+      oData <= macOut;
+    end if;
+  end process outPro;
 
 end architecture rtl;

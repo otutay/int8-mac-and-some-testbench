@@ -1,14 +1,14 @@
 {
     "options": {
-        "ghdl_analysis": [
-            "--workdir=work",
-            "--ieee=synopsys",
-            "-fexplicit"
-        ]
+	"ghdl_analysis": [
+	    "--workdir=work",
+	    "--ieee=synopsys",
+	    "-fexplicit"
+	]
     },
     "files": [
-        { "file": "multPckg.vhd",       "language": "vhdl" },
-        { "file": "mult.vhd",           "language": "vhdl" }
-        
+	{ "file": "multPckg.vhd",       "language": "vhdl" },
+	{ "file": "mac.vhd",           "language": "vhdl" }
+
     ]
 }
