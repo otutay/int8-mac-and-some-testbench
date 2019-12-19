@@ -10,8 +10,7 @@
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
--- Description: mult vhd file for wp487
--- ab,db is computed in paralel to create (a+d)b operation
+-- Description: doing the  preadd, multiply and postadd functions
 -------------------------------------------------------------------------------
 -- Copyright (c) 2019
 -------------------------------------------------------------------------------
@@ -42,8 +41,11 @@ architecture rtl of mac is
   signal ai1                    : signed(cPreAddBitW-1 downto 0)  := (others => '0');
   signal di1                    : signed(cPreAddBitW-1 downto 0)  := (others => '0');
   signal bi1                    : signed(cMult2BitW-1 downto 0)   := (others => '0');
+  signal bi2                    : signed(cMult2BitW-1 downto 0)   := (others => '0');
   signal preAdd                 : signed(cPreAddBitW-1 downto 0)  := (others => '0');
   signal postAddi1              : signed(cMultOutBitW-1 downto 0) := (others => '0');
+  signal postAddi2              : signed(cMultOutBitW-1 downto 0) := (others => '0');
+  signal postAddi3              : signed(cMultOutBitW-1 downto 0) := (others => '0');
   signal mult                   : signed(cMultOutBitW-1 downto 0) := (others => '0');
   signal macOut                 : signed(cMultOutBitW-1 downto 0) := (others => '0');
 --
@@ -64,8 +66,12 @@ begin  -- architecture mult
       ai1 <= iData.a1 & to_signed(0, cPreAddBitW-cDataBitW);
       di1 <= resize(iData.a2, cPreAddBitW);
 
-      bi1       <= resize(iData.w, cMult2BitW);
+      bi1 <= resize(iData.w, cMult2BitW);
+      bi2 <= bi1;
+
       postAddi1 <= iData.pSum;
+      postAddi2 <= postAddi1;
+      postAddi3 <= postAddi2;
     end if;
   end process inRegPro;
 
@@ -74,8 +80,8 @@ begin  -- architecture mult
   begin  -- process macPro
     if clk'event and clk = '1' then     -- rising clock edge
       preAdd <= ai1 + di1;
-      mult   <= preAdd*bi1;
-      macOut <= mult+postAddi1;
+      mult   <= preAdd*bi2;
+      macOut <= mult+postAddi3;
     end if;
   end process macPro;
 
