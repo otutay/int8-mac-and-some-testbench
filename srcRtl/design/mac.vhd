@@ -4,9 +4,9 @@
 -------------------------------------------------------------------------------
 -- File       : mac.vhd
 -- Author     : osmant  <otutaysalgir@gmail.com>
--- Company    :
+-- Company    : self
 -- Created    : 2019-12-12
--- Last update: 2019-12-19
+-- Last update: 2019-12-21
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ entity mac is
     iClk  : in  std_logic;                            -- clk input
     iRst  : in  std_logic;                            -- rset input
     iData : in  tMultIn;
-    oData : out signed(cMultOutBitW-1 downto 0)
+    oData : out tMultOut
     );
 end entity mac;
 architecture rtl of mac is
@@ -88,7 +88,7 @@ begin  -- architecture mult
   outPro : process (clk) is
   begin  -- process outPro
     if clk'event and clk = '1' then     -- rising clock edge
-      oData <= macOut;
+      oData.data <= macOut;
     end if;
   end process outPro;
 

@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-15
--- Last update: 2019-12-19
+-- Last update: 2019-12-21
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -40,8 +40,14 @@ package multPckg is
     is8Bit : std_logic;
     dv     : std_logic;
   end record tMultIn;
-
   constant cMultIn : tMultIn := ((others => '0'), (others => '0'), (others => '0'), (others => '0'), '0', '0');
+
+  type tMultOut is record
+    data : signed(cMultOutBitW-1 downto 0);
+    dv   : std_logic;
+  end record tMultOut;
+  constant cMultOut : tMultOut :=((others=> '0'),'0');
+
 
 end package multPckg;
 

@@ -8,7 +8,9 @@
     },
     "files": [
 	{ "file": "multPckg.vhd",       "language": "vhdl" },
-	{ "file": "mac.vhd",           "language": "vhdl" }
+	{ "file": "mac.vhd",           "language": "vhdl" },
+	{ "file": "tilePckg.vhd",       "language": "vhdl" },
+	{ "file": "tile.vhd",           "language": "vhdl" }
 
     ]
 }

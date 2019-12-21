@@ -6,12 +6,12 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-19
--- Last update: 2019-12-19
+-- Last update: 2019-12-22
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
 -- Description: combines the 5 mult add operation and do a limited convolution
--- operation
+-- operation. Convolution data is a square matrix
 -------------------------------------------------------------------------------
 -- Copyright (c) 2019
 -------------------------------------------------------------------------------
@@ -24,12 +24,14 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 library work;
 use work.multPckg.all;
+use work.tilePckg.all;
 
 entity tile is
 
   port (
     iClk : in std_logic;
-    iRst : in std_logic
+    iRst : in std_logic;
+    iControl : in tTileIn
     );
 
 end entity tile;
@@ -39,20 +41,27 @@ architecture rtl of tile is
       iClk  : in  std_logic;
       iRst  : in  std_logic;
       iData : in  tMultIn;
-      oData : out signed(cMultOutBitW-1 downto 0));
+      oData : out tMultOut
+      );
   end component mac;
 
 
-  signal iData : tMultIn;
-  signal oData : signed(cMultOutBitW-1 downto 0);
+  signal macIn  : tMultInArray  := cMultInArray;
+  signal macOut : tMultOutArray := cMultOutArray;
 
 begin  -- architecture rtl
-  mac_1 : mac
-    port map (
-      iClk  => iClk,
-      iRst  => iRst,
-      iData => iData,
-      oData => oData);
+
+
+
+  macGen : for it in 0 to cNumOfMultAdd-1 generate
+    mac_1 : mac
+      port map (
+        iClk  => iClk,
+        iRst  => iRst,
+        iData => macIn(it),
+        oData => macOut(it)
+        );
+  end generate macGen;
 
 
 end architecture rtl;
