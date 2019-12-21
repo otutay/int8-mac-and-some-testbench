@@ -31,7 +31,8 @@ entity tile is
   port (
     iClk : in std_logic;
     iRst : in std_logic;
-    iControl : in tTileIn
+    iControl : in tTileIn;
+    iData : in signed(31 downto 0)
     );
 
 end entity tile;
@@ -62,6 +63,5 @@ begin  -- architecture rtl
         oData => macOut(it)
         );
   end generate macGen;
-
 
 end architecture rtl;

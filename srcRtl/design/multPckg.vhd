@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-15
--- Last update: 2019-12-21
+-- Last update: 2019-12-22
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -48,10 +48,27 @@ package multPckg is
   end record tMultOut;
   constant cMultOut : tMultOut :=((others=> '0'),'0');
 
+  function log2 (
+    constant depth : integer)
+    return integer;
+
 
 end package multPckg;
 
 package body multPckg is
-  --constant cMultIn : tMultIn := (ADD, (others => '0'), (others => '0'),'0','0');
+
+  function log2 (
+    constant depth : integer)
+    return integer is
+    variable temp : integer := depth;
+    variable retVal : integer := 0;
+  begin  -- function log2
+    while temp > 1 loop
+      retVal := retVal+1;
+      temp := temp/2;
+    end loop;
+    return retVal;
+
+  end function log2;
 
 end package body multPckg;
