@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    : self
 -- Created    : 2019-12-12
--- Last update: 2019-12-21
+-- Last update: 2019-12-29
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -38,16 +38,17 @@ entity mac is
 end entity mac;
 architecture rtl of mac is
   alias clk                     : std_logic is iClk;  -- clk For processes
-  signal ai1                    : signed(cPreAddBitW-1 downto 0)  := (others => '0');
-  signal di1                    : signed(cPreAddBitW-1 downto 0)  := (others => '0');
-  signal bi1                    : signed(cMult2BitW-1 downto 0)   := (others => '0');
-  signal bi2                    : signed(cMult2BitW-1 downto 0)   := (others => '0');
-  signal preAdd                 : signed(cPreAddBitW-1 downto 0)  := (others => '0');
-  signal postAddi1              : signed(cMultOutBitW-1 downto 0) := (others => '0');
-  signal postAddi2              : signed(cMultOutBitW-1 downto 0) := (others => '0');
-  signal postAddi3              : signed(cMultOutBitW-1 downto 0) := (others => '0');
-  signal mult                   : signed(cMultOutBitW-1 downto 0) := (others => '0');
-  signal macOut                 : signed(cMultOutBitW-1 downto 0) := (others => '0');
+  signal ai1                    : signed(cPreAddBitW-1 downto 0)           := (others => '0');
+  signal di1                    : signed(cPreAddBitW-1 downto 0)           := (others => '0');
+  signal bi1                    : signed(cMult2BitW-1 downto 0)            := (others => '0');
+  signal bi2                    : signed(cMult2BitW-1 downto 0)            := (others => '0');
+  signal preAdd                 : signed(cPreAddBitW-1 downto 0)           := (others => '0');
+  signal postAddi1              : signed(cMultOutBitW-1 downto 0)          := (others => '0');
+  signal postAddi2              : signed(cMultOutBitW-1 downto 0)          := (others => '0');
+  signal postAddi3              : signed(cMultOutBitW-1 downto 0)          := (others => '0');
+  signal mult                   : signed(cMultOutBitW-1 downto 0)          := (others => '0');
+  signal macOut                 : signed(cMultOutBitW-1 downto 0)          := (others => '0');
+  signal dvShftReg              : std_logic_vector(cMacLatency-1 downto 0) := (others => '0');
 --
   -- vivado specific attributes
   attribute USE_DSP48           : string;
@@ -91,5 +92,13 @@ begin  -- architecture mult
       oData.data <= macOut;
     end if;
   end process outPro;
+  oData.dv <= dvShftReg(dvShftReg'high);
+
+  dvLatencyPro : process (clk) is
+  begin  -- process dvLatencyPro
+    if clk'event and clk = '1' then     -- rising clock edge
+      dvShftReg <= dvShftReg(dvShftReg'high-1 downto 0) & iData.dv;
+    end if;
+  end process dvLatencyPro;
 
 end architecture rtl;

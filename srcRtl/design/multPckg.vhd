@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-15
--- Last update: 2019-12-22
+-- Last update: 2019-12-29
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -32,6 +32,8 @@ package multPckg is
   constant cMult2BitW   : integer := 18;
   -- a1 and a2 will be data and weight for multiply operation
   --
+  constant cMacLatency : integer := 5;
+
   type tMultIn is record
     a1     : signed(cDataBitW-1 downto 0);
     a2     : signed(cDataBitW-1 downto 0);
@@ -48,27 +50,27 @@ package multPckg is
   end record tMultOut;
   constant cMultOut : tMultOut :=((others=> '0'),'0');
 
-  function log2 (
-    constant depth : integer)
-    return integer;
+  -- function log2 (
+  --   constant depth : integer)
+  --   return integer;
 
 
 end package multPckg;
 
 package body multPckg is
 
-  function log2 (
-    constant depth : integer)
-    return integer is
-    variable temp : integer := depth;
-    variable retVal : integer := 0;
-  begin  -- function log2
-    while temp > 1 loop
-      retVal := retVal+1;
-      temp := temp/2;
-    end loop;
-    return retVal;
+  -- function log2 (
+  --   constant depth : integer)
+  --   return integer is
+  --   variable temp : integer := depth;
+  --   variable retVal : integer := 0;
+  -- begin  -- function log2
+  --   while temp > 1 loop
+  --     retVal := retVal+1;
+  --     temp := temp/2;
+  --   end loop;
+  --   return retVal;
 
-  end function log2;
+  -- end function log2;
 
 end package body multPckg;

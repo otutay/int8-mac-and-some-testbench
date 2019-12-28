@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-19
--- Last update: 2019-12-22
+-- Last update: 2019-12-29
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -29,10 +29,10 @@ use work.tilePckg.all;
 entity tile is
 
   port (
-    iClk : in std_logic;
-    iRst : in std_logic;
+    iClk     : in std_logic;
+    iRst     : in std_logic;
     iControl : in tTileIn;
-    iData : in signed(31 downto 0)
+    iData    : in signed(31 downto 0)
     );
 
 end entity tile;
@@ -45,7 +45,6 @@ architecture rtl of tile is
       oData : out tMultOut
       );
   end component mac;
-
 
   signal macIn  : tMultInArray  := cMultInArray;
   signal macOut : tMultOutArray := cMultOutArray;
