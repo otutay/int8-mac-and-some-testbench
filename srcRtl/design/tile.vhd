@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-19
--- Last update: 2019-12-29
+-- Last update: 2019-12-30
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -31,7 +31,6 @@ entity tile is
   port (
     iClk     : in std_logic;
     iRst     : in std_logic;
-    iControl : in tTileIn;
     iData    : in signed(31 downto 0)
     );
 
@@ -62,5 +61,4 @@ begin  -- architecture rtl
         oData => macOut(it)
         );
   end generate macGen;
-
 end architecture rtl;

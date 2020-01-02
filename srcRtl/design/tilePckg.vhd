@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-21
--- Last update: 2019-12-22
+-- Last update: 2020-01-02
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -23,10 +23,13 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 library work;
 use work.multPckg.all;
+use work.ramPckg.all;
+use work.funcPckg.all;
 
 package tilePckg is
-  constant cTileSquareBitW : integer := 16;
-  constant cNumOfMultAdd   : integer := 4;
+  constant cTileNum      : integer := 12;
+  constant cNumOfMultAdd : integer := 12;
+  constant cMaxKerWidth  : integer := 4;
 
   type tMultInArray is array (0 to cNumOfMultAdd-1) of tMultIn;
   constant cMultInArray : tMultInArray := (others => (cMultIn));
@@ -34,30 +37,38 @@ package tilePckg is
   type tMultOutArray is array (0 to cNumOfMultAdd-1) of tMultOut;
   constant cMultOutArray : tMultOutArray := (others => (cMultOut));
 
-  type tTileIn is record
-    stride : unsigned(2 downto 0);
-    start  : std_logic;
-  end record tTileIn;
-  constant cTileIn : tTileIn := ((others => '0'), '0');
 
-  function log2 (
-    constant depth : integer)
-    return integer;
+
+  type tIm2ColIn is record
+    kerWidth   : unsigned(log2(cMaxKerWidth)-1 downto 0);  -- maximum kernel size of 4
+    startAddrX : unsigned(log2(cTileNum)-1 downto 0);
+    startAddrY : unsigned(log2(cRamDepth)-1 downto 0);
+    dv         : std_logic;
+  end record tIm2ColIn;
+  constant cIm2ColIn : tIm2ColIn := ((others => '0'), (others => '0'), (others => '0'), '0');
+
+  type tAddrArray is array (0 to cMaxKerWidth-1) of unsigned(log2(cTileNum)-1 downto 0);
+  constant cAddrArray : tAddrArray := (others => (others => '0'));
+
+  type tIm2ColOut is record
+    xAddr : tAddrArray;
+    yAddr : unsigned(log2(cRamDepth)-1 downto 0);
+    dv    : std_logic;
+    done  : std_logic;
+  end record tIm2ColOut;
+  constant cIm2ColOut : tIm2ColOut := (cAddrArray, (others => '0'), '0', '0');
+
+  function calcAddr (signal addr : tIm2ColIn) return tIm2ColOut;
 
 end package tilePckg;
 package body tilePckg is
-
-  function log2 (
-    constant depth : integer)
-    return integer is
-    variable temp : integer := depth;
-    variable retVal : integer := 0;
-  begin  -- function log2
-    while temp > 1 loop
-      retVal := retVal+1;
-      temp := temp/2;
-    end loop;
-    return retVal;
-  end function log2;
-
+  function calcAddr (signal addr : tIm2ColIn) return tIm2ColOut is
+    variable outData : tIm2ColOut;
+  begin  -- function calcAddr
+    outData.yAddr := addr.startAddrY;
+    addrXGen : for it in 0 to outData.xAddr'high loop
+      outData.xAddr(it) := addr.startAddrX + to_unsigned(it,log2(cTileNum));
+    end loop addrXGen;
+    return outData;
+  end function calcAddr;
 end package body tilePckg;
