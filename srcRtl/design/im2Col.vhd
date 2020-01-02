@@ -43,7 +43,7 @@ architecture rtl of im2Col is
   signal dataIn  : tIm2ColIn                               := cIm2ColIn;
   signal dataOut : tIm2ColOut                              := cIm2ColOut;
 begin  -- architecture rtl
-
+  oData <= dataOut;
   InputRegPro : process (clk) is
   begin  -- process calcPro
     if clk'event and clk = '1' then     -- rising clock edge
