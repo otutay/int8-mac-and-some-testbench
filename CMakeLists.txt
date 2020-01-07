@@ -76,7 +76,7 @@ function(addIP2Project tclLoc relLoc suffix)
 endfunction()
 
 
-project(VHDLDeneme)
+project(int8Detector)
 #setting compile,simulate,sythesis directives
 set(FPGAName "xc7z045ffg900-2")
 set(boardName "xilinx.com:zc706:part0:1.4")

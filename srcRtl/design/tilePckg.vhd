@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-21
--- Last update: 2020-01-02
+-- Last update: 2020-01-08
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -37,8 +37,6 @@ package tilePckg is
   type tMultOutArray is array (0 to cNumOfMultAdd-1) of tMultOut;
   constant cMultOutArray : tMultOutArray := (others => (cMultOut));
 
-
-
   type tIm2ColIn is record
     kerWidth   : unsigned(log2(cMaxKerWidth)-1 downto 0);  -- maximum kernel size of 4
     startAddrX : unsigned(log2(cTileNum)-1 downto 0);
@@ -58,14 +56,16 @@ package tilePckg is
   end record tIm2ColOut;
   constant cIm2ColOut : tIm2ColOut := (cAddrArray, (others => '0'), '0', '0');
 
+  -- type tIm2ColState is ();
   function calcAddr (signal addr : tIm2ColIn) return tIm2ColOut;
 
 end package tilePckg;
 package body tilePckg is
+
   function calcAddr (signal addr : tIm2ColIn) return tIm2ColOut is
     variable outData : tIm2ColOut;
   begin  -- function calcAddr
-    outData.yAddr := addr.startAddrY;
+    outData.yAddr := addr.startAddrY + 1;
     addrXGen : for it in 0 to outData.xAddr'high loop
       outData.xAddr(it) := addr.startAddrX + to_unsigned(it,log2(cTileNum));
     end loop addrXGen;

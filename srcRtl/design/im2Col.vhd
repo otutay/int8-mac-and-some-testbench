@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-30
--- Last update: 2020-01-03
+-- Last update: 2020-01-08
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -51,8 +51,10 @@ begin  -- architecture rtl
         dataIn <= cIm2ColIn;
       elsif (iData.dv = '1') then
         dataIn <= iData;
+        dataIn.startAddrY <= iData.startAddrY - 1;
       elsif(doCalc = '1') then
         dataIn.startAddrX <= dataIn.startAddrX + 1;
+        dataIn.startAddrY <= dataIn.startAddrY + 1;
       end if;
     end if;
   end process InputRegPro;
@@ -60,15 +62,16 @@ begin  -- architecture rtl
   calcPro : process (clk) is
   begin  -- process calcPro
     if clk'event and clk = '1' then     -- rising clock edge
+      dataOut <= calcAddr(dataIn);
       if(doCalc = '1') then
-        dataOut    <= calcAddr(dataIn);
-        dataOut.dv <= '1';
+        dataOut.dv   <= '1';
         dataOut.done <= '0';
         if(count = dataIn.kerWidth) then
           dataOut.done <= '1';
         end if;
       else
-        dataOut    <= cIm2ColOut;
+        dataOut.dv   <= '0';
+        dataOut.done <= '0';
       end if;
     end if;
   end process calcPro;
@@ -76,7 +79,7 @@ begin  -- architecture rtl
   countPro : process (clk) is
   begin  -- process countPro
     if clk'event and clk = '1' then     -- rising clock edge
-      if (iRst = '1') then
+      if (iRst = '1' or iData.dv = '1') then
         count <= to_unsigned(1, log2(cMaxKerWidth));
       elsif(doCalc = '1') then
         count <= count + 1;
