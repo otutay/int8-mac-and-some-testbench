@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-19
--- Last update: 2019-12-30
+-- Last update: 2020-01-08
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -25,13 +25,14 @@ use ieee.numeric_std.all;
 library work;
 use work.multPckg.all;
 use work.tilePckg.all;
+use work.ramPckg.all;
 
 entity tile is
 
   port (
-    iClk     : in std_logic;
-    iRst     : in std_logic;
-    iData    : in signed(31 downto 0)
+    iClk  : in std_logic;
+    iRst  : in std_logic;
+    iData : in signed(31 downto 0)
     );
 
 end entity tile;
@@ -45,13 +46,35 @@ architecture rtl of tile is
       );
   end component mac;
 
-  signal macIn  : tMultInArray  := cMultInArray;
-  signal macOut : tMultOutArray := cMultOutArray;
+  component ram is
+    generic (
+      cRamPerformance : tPerfEnum;
+      cRamInitFile    : string);
+    port (
+      iClk : in  std_logic;
+      iRst : in  std_logic;
+      iRam : in  tRamInData;
+      oRam : out tRamOutData);
+  end component ram;
 
+  signal macIn  : tMultInArray     := cMultInArray;
+  signal macOut : tMultOutArray    := cMultOutArray;
+  signal ramIn  : tRamInDataArray  := cRamInDataArray;
+  signal ramOut : tRamOutDataArray := cRamOutDataArray;
 begin  -- architecture rtl
 
 
-
+  ramGen : for it in 0 to cTileNum-1 generate
+    ram_1 : entity work.ram
+      generic map (
+        cRamPerformance => highPerf,
+        cRamInitFile    => "dummy")
+      port map (
+        iClk => iClk,
+        iRst => iRst,
+        iRam => ramIn(it),
+        oRam => ramOut(it));
+  end generate ramGen;
   macGen : for it in 0 to cNumOfMultAdd-1 generate
     mac_1 : mac
       port map (
