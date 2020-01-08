@@ -42,18 +42,17 @@ architecture rtl of im2Col is
   signal doCalc  : std_logic                               := '0';
   signal dataIn  : tIm2ColIn                               := cIm2ColIn;
   signal dataOut : tIm2ColOut                              := cIm2ColOut;
+
 begin  -- architecture rtl
+
   oData <= dataOut;
   InputRegPro : process (clk) is
   begin  -- process calcPro
     if clk'event and clk = '1' then     -- rising clock edge
-      if(iRst = '1') then
-        dataIn <= cIm2ColIn;
-      elsif (iData.dv = '1') then
-        dataIn <= iData;
+      if (iData.dv = '1') then
+        dataIn            <= iData;
         dataIn.startAddrY <= iData.startAddrY - 1;
-      elsif(doCalc = '1') then
-        dataIn.startAddrX <= dataIn.startAddrX + 1;
+      else
         dataIn.startAddrY <= dataIn.startAddrY + 1;
       end if;
     end if;
@@ -62,16 +61,11 @@ begin  -- architecture rtl
   calcPro : process (clk) is
   begin  -- process calcPro
     if clk'event and clk = '1' then     -- rising clock edge
-      dataOut <= calcAddr(dataIn);
-      if(doCalc = '1') then
-        dataOut.dv   <= '1';
-        dataOut.done <= '0';
-        if(count = dataIn.kerWidth) then
-          dataOut.done <= '1';
-        end if;
-      else
-        dataOut.dv   <= '0';
-        dataOut.done <= '0';
+      dataOut    <= calcAddr(dataIn);
+      dataOut.dv <= doCalc;
+      dataOut.done <= '0';
+      if(count = dataIn.kerWidth and doCalc = '1') then
+        dataOut.done <= '1';
       end if;
     end if;
   end process calcPro;

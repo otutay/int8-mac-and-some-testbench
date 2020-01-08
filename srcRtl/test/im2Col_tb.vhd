@@ -79,16 +79,23 @@ begin
       elsif counter = 100 then
         iData.dv         <= '1';
         iData.kerWidth   <= to_unsigned(3, log2(cMaxKerWidth));
-        iData.startAddrX <= to_unsigned(0, log2(cTileNum));
-        iData.startAddrY <= to_unsigned(0, log2(cRamDepth));
+        iData.startAddrX <= to_unsigned(1, log2(cTileNum));
+        iData.startAddrY <= to_unsigned(1, log2(cRamDepth));
       elsif counter = 101 then
         iData <= cIm2ColIn;
       elsif counter = 103 then
         iData.dv         <= '1';
-        iData.kerWidth   <= to_unsigned(3, log2(cMaxKerWidth));
+        iData.kerWidth   <= to_unsigned(2, log2(cMaxKerWidth));
         iData.startAddrX <= to_unsigned(0, log2(cTileNum));
         iData.startAddrY <= to_unsigned(0, log2(cRamDepth));
       elsif counter = 104 then
+        iData <= cIm2ColIn;
+      elsif counter = 105 then
+        iData.dv         <= '1';
+        iData.kerWidth   <= to_unsigned(4, log2(cMaxKerWidth));
+        iData.startAddrX <= to_unsigned(5, log2(cTileNum));
+        iData.startAddrY <= to_unsigned(6, log2(cRamDepth));
+      elsif counter = 106 then
         iData <= cIm2ColIn;
       end if;
     end if;
