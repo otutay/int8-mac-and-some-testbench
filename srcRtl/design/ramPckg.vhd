@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-22
--- Last update: 2020-01-08
+-- Last update: 2020-01-10
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ package ramPckg is
   type tRamArray is array (cRamDepth-1 downto 0) of std_logic_vector(cRamWidth-1 downto 0);
 
   type tRamInData is record
-    addr : std_logic_vector(log2(cRamDepth)-1 downto 0);
+    addr : std_logic_vector(log2(cRamDepth-1)-1 downto 0);
     data : std_logic_vector(cRamWidth-1 downto 0);
     wEn  : std_logic;
     en   : std_logic;
@@ -42,7 +42,7 @@ package ramPckg is
 
   type tRamOutData is record
     data : std_logic_vector(cRamWidth-1 downto 0);
-    addr : std_logic_vector(log2(cRamDepth)-1 downto 0);
+    addr : std_logic_vector(log2(cRamDepth-1)-1 downto 0);
     dv   : std_logic;
   end record tRamOutData;
   constant cRamOutData : tRamOutData := ((others => '0'), (others => '0'), '0');

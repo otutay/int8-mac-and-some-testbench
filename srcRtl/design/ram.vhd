@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-22
--- Last update: 2020-01-08
+-- Last update: 2020-01-10
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -43,9 +43,9 @@ end entity ram;
 
 architecture rtl of ram is
   alias clk         : std_logic is iClk;
-  signal addri2     : std_logic_vector(log2(cRamDepth)-1 downto 0) := (others => '0');
-  signal addri1     : std_logic_vector(log2(cRamDepth)-1 downto 0) := (others => '0');
-  signal addr       : std_logic_vector(log2(cRamDepth)-1 downto 0) := (others => '0');
+  signal addri2     : std_logic_vector(log2(cRamDepth-1)-1 downto 0) := (others => '0');
+  signal addri1     : std_logic_vector(log2(cRamDepth-1)-1 downto 0) := (others => '0');
+  signal addr       : std_logic_vector(log2(cRamDepth-1)-1 downto 0) := (others => '0');
   signal dataIn     : std_logic_vector(cRamWidth-1 downto 0)       := (others => '0');
   signal ramBlock   : tRamArray                                    := (others => (others => '0'));
   signal ramData    : std_logic_vector(cRamWidth-1 downto 0)       := (others => '0');
@@ -72,7 +72,7 @@ begin  -- architecture rtl
   begin  -- process ramReadWritePro
     if clk'event and clk = '1' then     -- rising clock edge
       addri1 <= addr;
-      eni1   <= en;
+      eni1   <= en and not(wEn); -- for creating the true read dv
       if(en = '1') then
         if (wEn = '1') then
           ramBlock(to_integer(unsigned(addr))) <= dataIn;
