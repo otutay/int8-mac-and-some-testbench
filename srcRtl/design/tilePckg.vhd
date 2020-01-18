@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-21
--- Last update: 2020-01-08
+-- Last update: 2020-01-19
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ use work.ramPckg.all;
 use work.funcPckg.all;
 
 package tilePckg is
-  constant cTileNum      : integer := 12;
+
   constant cNumOfMultAdd : integer := 12;
   constant cMaxKerWidth  : integer := 4;
 
@@ -38,11 +38,6 @@ package tilePckg is
   constant cMultOutArray : tMultOutArray := (others => (cMultOut));
 
 
-  type tRamInDataArray is array (0 to cTileNum-1) of tRamInData;
-  constant cRamInDataArray :tRamInDataArray :=(others => cRamInData);
-
-  type tRamOutDataArray is array (0 to cTileNum-1) of tRamOutData;
-  constant cRamOutDataArray : tRamOutDataArray := (others => cRamOutData);
 
   type tIm2ColIn is record
     kerWidth   : unsigned(log2(cMaxKerWidth)-1 downto 0);  -- maximum kernel size of 4

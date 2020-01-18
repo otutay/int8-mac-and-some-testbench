@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-30
--- Last update: 2020-01-08
+-- Last update: 2020-01-19
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -61,8 +61,8 @@ begin  -- architecture rtl
   calcPro : process (clk) is
   begin  -- process calcPro
     if clk'event and clk = '1' then     -- rising clock edge
-      dataOut    <= calcAddr(dataIn);
-      dataOut.dv <= doCalc;
+      dataOut      <= calcAddr(dataIn);
+      dataOut.dv   <= doCalc;
       dataOut.done <= '0';
       if(count = dataIn.kerWidth and doCalc = '1') then
         dataOut.done <= '1';
