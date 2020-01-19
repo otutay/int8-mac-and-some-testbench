@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-19
--- Last update: 2020-01-19
+-- Last update: 2020-01-20
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -49,8 +49,8 @@ architecture rtl of tile is
       oRam : out tRamOutData);
   end component ram;
 
-  signal macIn  : tMultInArray     := cMultInArray;
-  signal macOut : tMultOutArray    := cMultOutArray;
+  signal macIn  : tMultInArray  := cMultInArray;
+  signal macOut : tMultOutArray := cMultOutArray;
 
 begin  -- architecture rtl
 

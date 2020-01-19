@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-21
--- Last update: 2020-01-19
+-- Last update: 2020-01-20
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 library work;
 use work.multPckg.all;
-use work.ramPckg.all;
+-- use work.ramPckg.all;
 use work.funcPckg.all;
 
 package tilePckg is

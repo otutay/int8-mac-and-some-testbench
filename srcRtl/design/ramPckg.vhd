@@ -46,6 +46,7 @@ package ramPckg is
     dv   : std_logic;
   end record tRamOutData;
   constant cRamOutData : tRamOutData := ((others => '0'), (others => '0'), '0');
+
 end package ramPckg;
 
 package body ramPckg is

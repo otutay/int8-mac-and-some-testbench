@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-22
--- Last update: 2020-01-10
+-- Last update: 2020-01-20
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 package funcPckg is
-  function log2 (constant depth : integer) return integer;
+  function log2 (constant depth      : integer) return integer;
   function log2floor (constant depth : integer) return integer;
 end package funcPckg;
 
