@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2019-12-22
--- Last update: 2020-01-20
+-- Last update: 2020-02-09
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------

@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2020-01-19
--- Last update: 2020-01-20
+-- Last update: 2020-02-10
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -36,11 +36,19 @@ package ramControllerPckg is
     type tDataArray is array (0 to cRamNum-1) of std_logic_vector(cRamWidth-1 downto 0);
     constant cDataArray : tDataArray := (others => (others => '0'));
 
+    -- type tRamEn is array (0 to cRamNum-1 ) of std_logic;
+    -- constant cRamEn  : tRamEn := (others => '0');
+
+    -- type tRamWEn is array (0 to cRamNum-1 ) of std_logic;
+    -- constant cRamWEn  : tRamWEn := (others => '0');
+
     type tRamControllerIn is record
       data : tDataArray;
+      wEn  : std_logic;
       dv   : std_logic;
+      -- readAddr :
     end record tRamControllerIn;
-    constant cRamControllerIn : tRamControllerIn := (cDataArray, '0');
+    constant cRamControllerIn : tRamControllerIn := (cDataArray, '0', '0');
 
 end package ramControllerPckg;
 
