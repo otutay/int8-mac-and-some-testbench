@@ -6,7 +6,7 @@
 -- Author     : osmant  <otutaysalgir@gmail.com>
 -- Company    :
 -- Created    : 2020-01-19
--- Last update: 2020-02-10
+-- Last update: 2020-02-12
 -- Platform   :
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -29,9 +29,9 @@ use work.funcPckg.all;
 entity ramController is
 
   port (
-    iClk  : in std_logic;
-    iRst  : in std_logic;
-    iData : in tRamControllerIn
+    iClk : in std_logic;
+    iRst : in std_logic
+    -- iData : in tRamControllerIn
     -- oData :
     );
 
@@ -54,6 +54,7 @@ architecture rtl of ramController is
   signal ramOut     : tRamOutDataArray                               := cRamOutDataArray;
   signal commonAddr : std_logic_vector(log2(cRamDepth-1)-1 downto 0) := (others => '0');
   signal dummyVec   : std_logic_vector(2 downto 0)                   := (others => '0');
+  signal iData      : tRamControllerIn;
 begin  -- architecture rtl
 
   ramGen : for it in 0 to cRamNum-1 generate
