@@ -72,7 +72,7 @@ module ram #(parameter tPerfEnum cRamPerformance = highPerf) (
 
 			end
 			if (cRamPerformance == highPerf) begin
-				always_ff @(posedge clk) begin : highPerfRamGen
+				always_ff @(posedge clk) begin
 					// dataOut <= ramData;
 					addrOut <= ramAddr;
 					dataOut <= ramData;

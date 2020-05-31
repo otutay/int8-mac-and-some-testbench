@@ -10,7 +10,7 @@ package funcPckg;
 			end
 		return retVal;
 
-		endfunction : log2
+	endfunction : log2
 
 
-	endpackage:funcPckg
+endpackage:funcPckg
