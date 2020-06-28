@@ -29,9 +29,9 @@ package im2ColPckg;
 	function automatic logic[(cMaxKerWidth-1):0] validAddr (logic [log2(cMaxKerWidth-1)-1:0] kerWidth);
 		logic [(cMaxKerWidth-1):0] retVal;
 		case (kerWidth)
-			2'b00 : retVal = 4'b1000;
-			2'b01 : retVal = 4'b1100;
-			2'b10 : retVal = 4'b1110;
+			2'b00 : retVal = 4'b0001;
+			2'b01 : retVal = 4'b0011;
+			2'b10 : retVal = 4'b0111;
 			2'b11 : retVal = 4'b1111;
 		endcase
 		return retVal;

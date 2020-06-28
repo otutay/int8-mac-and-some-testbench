@@ -16,7 +16,7 @@ class im2ColEnvClass;
 
 		// build gen and driv obj
 		im2ColGen = new(im2ColGen2Driv,testNum);
-		im2Driv = new(vIm2ColIntf,im2ColGen2Driv);
+		im2ColDriv = new(vIm2ColIntf,im2ColGen2Driv);
 	endfunction : new
 
 	task reset();
@@ -24,12 +24,13 @@ class im2ColEnvClass;
 		im2ColDriv.reset();
 		$display("[im2ColEnv ] reset is issued");
 	endtask : reset
+	
 
 
 	task test();
 		$display("[im2ColEnv ] test is about the start");
 		fork 
-			im2ColGen.randomize();
+			im2ColGen.randomTrans();
 			im2ColDriv.drive();
 		join
 		$display("[im2ColEnv ] test is issued");

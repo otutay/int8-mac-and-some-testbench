@@ -12,21 +12,24 @@ class im2ColGenClass;
 		this.genNum = genNum;
 	endfunction : new
 
-	task randomize();
-		for (int i = 0; i < genNum; i++) begin
-			if(trans.randomize())
-				begin
-					$display("[im2ColGenClass -> randomization] randomization error");
-				end
-			else
-				begin
-					im2ColGen2Driv.put(trans);
-					$display("[im2ColGenClass -> randomization] data is %p",trans.iData);
-				end
-		end
-	endtask: randomize
+	task randomTrans();
+
+		for (int i = 0; i < genNum; i++)
+			begin
+				trans = new();
+				if(!trans.randomize())
+					begin
+						$display("[im2ColGenClass -> randomization] randomization error");
+					end
+				else
+					begin
+						im2ColGen2Driv.put(trans);
+						$display("[im2ColGenClass -> randomization] data is %p",trans.iData);
+					end
+			end
+	endtask: randomTrans
 
 
-	
+
 
 endclass : im2ColGenClass
