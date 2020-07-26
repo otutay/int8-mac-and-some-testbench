@@ -1,1 +1,1 @@
-# int8 mac operation and edge detector
+# int8 mac operation and some testbench trials
